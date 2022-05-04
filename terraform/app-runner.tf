@@ -1,3 +1,22 @@
+resource "aws_apprunner_service" "phpmyadmin" {
+  service_name = var.name
+
+  source_configuration {
+    image_repository {
+      image_configuration {
+        port = "80"
+        runtime_environment_variables = {
+          APP_KEY = var.laravel_app_key
+        }
+      }
+      image_identifier      = "854403262515.dkr.ecr.ap-northeast-1.amazonaws.com/laravel-app-runner:master"
+      image_repository_type = "ECR"
+    }
+    authentication_configuration {
+      access_role_arn = aws_iam_role.app_runner_pull_ecr.arn
+    }
+  }
+}
 
 resource "aws_iam_role" "app_runner_pull_ecr" {
   name = "${var.name}-app-runner-pull"
