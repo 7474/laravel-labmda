@@ -1,0 +1,36 @@
+# Cloud デプロイ用の Dockerfile 管理用のファイル
+version: '3'
+services:
+    laravel:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - '80:80'
+        environment:
+            DB_HOST: 'mysql'
+            DB_DATABASE: 'app'
+            DB_USERNAME: 'root'
+            DB_PASSWORD: ''
+        networks:
+            - laravel_app_runner
+        depends_on:
+            - mysql
+        entrypoint: ["/var/www/wait-for-it.sh", "mysql:3306", "--", "start-container"]
+    mysql:
+        image: 'mysql/mysql-server:8.0'
+        ports:
+            - '${FORWARD_DB_PORT:-3306}:3306'
+        environment:
+            MYSQL_ROOT_PASSWORD: ''
+            MYSQL_ROOT_HOST: "%"
+            MYSQL_DATABASE: 'app'
+            MYSQL_USER: 'root'
+            MYSQL_PASSWORD: ''
+            MYSQL_ALLOW_EMPTY_PASSWORD: 1
+        networks:
+            - laravel_app_runner
+networks:
+    laravel_app_runner:
+        driver: bridge
+
