@@ -14,7 +14,6 @@ resource "aws_iam_role" "app_runner_pull_ecr" {
       },
     ]
   })
-  managed_policy_arns = ["arn:aws:iam::aws:policy/service-role/AWSAppRunnerServicePolicyForECRAccess"]
 }
 
 resource "aws_iam_role_policy_attachment" "app_runner_pull_ecr" {
