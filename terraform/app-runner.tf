@@ -2,6 +2,8 @@ resource "aws_apprunner_service" "phpmyadmin" {
   service_name = var.name
 
   source_configuration {
+    # It's annoying to pay $1/month.
+    auto_deployments_enabled = false
     image_repository {
       image_configuration {
         port = "80"
