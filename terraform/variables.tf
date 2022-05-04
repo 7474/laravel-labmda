@@ -4,7 +4,7 @@ variable "access_key" {
 
 variable "secret_key" {
   description = "AWS Secret Key"
-  sensitive = true
+  sensitive   = true
 }
 
 variable "name" {
