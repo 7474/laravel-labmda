@@ -23,7 +23,7 @@ data "aws_iam_policy_document" "github_actions" {
     condition {
       test     = "StringLike"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:7474/phpmyadmin-with-basic-auth:*"]
+      values   = ["repo:7474/laravel-app-runner:*"]
     }
   }
 }
