@@ -1,8 +1,8 @@
 {
-    "name": "laravel/laravel",
+    "name": "7474/laravel-app-runner",
     "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "description": "Example Laravel on AWS App Runner.",
+    "keywords": ["framework", "laravel", "aws", "app-runner"],
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
