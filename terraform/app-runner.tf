@@ -1,4 +1,4 @@
-resource "aws_apprunner_service" "phpmyadmin" {
+resource "aws_apprunner_service" "this" {
   service_name = var.name
 
   source_configuration {
