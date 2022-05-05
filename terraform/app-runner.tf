@@ -42,7 +42,7 @@ resource "aws_iam_role" "app_runner_pull_ecr" {
 }
 
 resource "aws_iam_role_policy_attachment" "app_runner_pull_ecr" {
-  role       = aws_iam_role.github_actions.name
+  role       = aws_iam_role.app_runner_pull_ecr.name
   policy_arn = aws_iam_policy.app_runner_pull_ecr.arn
 }
 
