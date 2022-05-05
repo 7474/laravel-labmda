@@ -33,6 +33,12 @@ module "aurora" {
       publicly_accessible = true
     }
   }
+  serverlessv2_scaling_configuration = {
+    min_capacity = 0.5
+    max_capacity = 8
+  }
+
+  skip_final_snapshot = true
 
   vpc_id  = module.vpc.vpc_id
   subnets = module.vpc.public_subnets
@@ -44,9 +50,4 @@ module "aurora" {
   storage_encrypted   = true
   apply_immediately   = true
   monitoring_interval = 10
-
-  serverlessv2_scaling_configuration = {
-    min_capacity = 0.5
-    max_capacity = 8
-  }
 }
