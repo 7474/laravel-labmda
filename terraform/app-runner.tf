@@ -8,7 +8,11 @@ resource "aws_apprunner_service" "this" {
       image_configuration {
         port = "80"
         runtime_environment_variables = {
-          APP_KEY = var.laravel_app_key
+          APP_KEY     = var.laravel_app_key
+          DB_HOST     = module.aurora.cluster_endpoint
+          DB_DATABASE = module.aurora.cluster_database_name
+          DB_USERNAME = module.aurora.cluster_master_username
+          DB_PASSWORD = module.aurora.cluster_master_password
         }
       }
       image_identifier      = "854403262515.dkr.ecr.ap-northeast-1.amazonaws.com/laravel-app-runner:master"
