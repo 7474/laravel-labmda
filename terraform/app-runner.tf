@@ -56,10 +56,16 @@ data "aws_iam_policy_document" "app_runner_pull_ecr" {
   statement {
     effect = "Allow"
     actions = [
+      "ecr:GetAuthorizationToken"
+    ]
+    resources = ["*"]
+  }
+  statement {
+    effect = "Allow"
+    actions = [
       "ecr:GetDownloadUrlForLayer",
       "ecr:BatchGetImage",
       "ecr:DescribeImages",
-      "ecr:GetAuthorizationToken",
       "ecr:BatchCheckLayerAvailability"
     ]
     resources = [
