@@ -67,10 +67,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN composer install --optimize-autoloader --no-dev
 # XXX 成果物だけコピー
 RUN rm /usr/local/bin/composer
-# 環境変数がコンテナ実行時に構成なので不可
-# php artisan config:cache
-RUN php artisan route:cache
-RUN php artisan view:cache
 
 # Configure nginx/php/supervisor configs
 # php-fpm のアクセスログはノイジーなので出力しない
