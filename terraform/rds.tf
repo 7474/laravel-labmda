@@ -24,6 +24,7 @@ module "aurora" {
   source = "terraform-aws-modules/rds-aurora/aws"
 
   name           = "${var.name}-aurora"
+  database_name  = "app"
   engine         = "aurora-mysql"
   engine_mode    = "provisioned"
   engine_version = "8.0.mysql_aurora.3.02.0"
