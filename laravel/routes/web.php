@@ -1,7 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Jobs\EchoJob;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,5 +18,11 @@ use Illuminate\Support\Facades\Log;
 
 Route::get('/', function () {
     Log::info('welcome');
+    return view('welcome');
+});
+
+Route::post('enqueue', function(Request $request) {
+    Log::info('enqueue');
+    EchoJob::dispatch($request->all());
     return view('welcome');
 });
