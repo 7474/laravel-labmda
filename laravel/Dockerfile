@@ -13,10 +13,10 @@ COPY . .
 COPY --from=node-deps /app/node_modules ./node_modules
 RUN yarn production
 
-# For app-runner
+# For lambda
 # https://learn2torials.com/a/laravel8-production-docker-image
 # https://gitlab.com/learn2torials/laravel8-docker
-FROM php:8.1-rc-fpm AS laravel-app-runner
+FROM php:8.1-rc-fpm AS laravel-lambda
 
 # Set working directory
 WORKDIR /var/www

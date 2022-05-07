@@ -9,7 +9,7 @@ variable "secret_key" {
 
 variable "name" {
   description = "Resource Name"
-  default     = "laravel-app-runner"
+  default     = "laravel-lambda"
 }
 
 variable "laravel_app_key" {

@@ -1,8 +1,8 @@
 {
-    "name": "7474/laravel-app-runner",
+    "name": "7474/laravel-lambda",
     "type": "project",
     "description": "Example Laravel on AWS App Runner.",
-    "keywords": ["framework", "laravel", "aws", "app-runner"],
+    "keywords": ["framework", "laravel", "aws", "lambda"],
     "license": "MIT",
     "require": {
         "php": "^8.0.2",

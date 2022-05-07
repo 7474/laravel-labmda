@@ -16,17 +16,17 @@ resource "aws_apprunner_service" "this" {
           LOG_CHANNEL = "stderr"
         }
       }
-      image_identifier      = "854403262515.dkr.ecr.ap-northeast-1.amazonaws.com/laravel-app-runner:master"
+      image_identifier      = "854403262515.dkr.ecr.ap-northeast-1.amazonaws.com/laravel-lambda:master"
       image_repository_type = "ECR"
     }
     authentication_configuration {
-      access_role_arn = aws_iam_role.app_runner_pull_ecr.arn
+      access_role_arn = aws_iam_role.lambda_pull_ecr.arn
     }
   }
 }
 
-resource "aws_iam_role" "app_runner_pull_ecr" {
-  name = "${var.name}-app-runner-pull"
+resource "aws_iam_role" "lambda_pull_ecr" {
+  name = "${var.name}-lambda-pull"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -42,18 +42,18 @@ resource "aws_iam_role" "app_runner_pull_ecr" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "app_runner_pull_ecr" {
-  role       = aws_iam_role.app_runner_pull_ecr.name
-  policy_arn = aws_iam_policy.app_runner_pull_ecr.arn
+resource "aws_iam_role_policy_attachment" "lambda_pull_ecr" {
+  role       = aws_iam_role.lambda_pull_ecr.name
+  policy_arn = aws_iam_policy.lambda_pull_ecr.arn
 }
 
-resource "aws_iam_policy" "app_runner_pull_ecr" {
-  name   = "${var.name}-app-runner-pull"
-  policy = data.aws_iam_policy_document.app_runner_pull_ecr.json
+resource "aws_iam_policy" "lambda_pull_ecr" {
+  name   = "${var.name}-lambda-pull"
+  policy = data.aws_iam_policy_document.lambda_pull_ecr.json
 }
 
 # Ref. arn:aws:iam::aws:policy/service-role/AWSAppRunnerServicePolicyForECRAccess
-data "aws_iam_policy_document" "app_runner_pull_ecr" {
+data "aws_iam_policy_document" "lambda_pull_ecr" {
   statement {
     effect = "Allow"
     actions = [

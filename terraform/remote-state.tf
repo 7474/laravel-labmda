@@ -2,7 +2,7 @@ terraform {
   backend "remote" {
     organization = "koudenpa"
     workspaces {
-      name = "laravel-app-runner"
+      name = "laravel-lambda"
     }
   }
 }

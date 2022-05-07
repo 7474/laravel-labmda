@@ -13,7 +13,7 @@ services:
             DB_USERNAME: 'root'
             DB_PASSWORD: ''
         networks:
-            - laravel_app_runner
+            - laravel_lambda
         depends_on:
             - mysql
         entrypoint: ["/var/www/wait-for-it.sh", "mysql:3306", "--", "start-container"]
@@ -29,8 +29,8 @@ services:
             MYSQL_PASSWORD: ''
             MYSQL_ALLOW_EMPTY_PASSWORD: 1
         networks:
-            - laravel_app_runner
+            - laravel_lambda
 networks:
-    laravel_app_runner:
+    laravel_lambda:
         driver: bridge
 

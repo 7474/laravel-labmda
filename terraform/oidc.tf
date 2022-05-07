@@ -15,7 +15,7 @@ data "aws_iam_policy_document" "github_actions" {
     condition {
       test     = "StringLike"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:7474/laravel-app-runner:*"]
+      values   = ["repo:7474/laravel-lambda:*"]
     }
   }
 }
@@ -55,17 +55,17 @@ data "aws_iam_policy_document" "github_actions_ecr_push" {
   }
 }
 
-resource "aws_iam_role_policy_attachment" "github_actions_app_runner" {
+resource "aws_iam_role_policy_attachment" "github_actions_lambda" {
   role       = aws_iam_role.github_actions.name
-  policy_arn = aws_iam_policy.github_actions_app_runner.arn
+  policy_arn = aws_iam_policy.github_actions_lambda.arn
 }
 
-resource "aws_iam_policy" "github_actions_app_runner" {
-  name   = "${var.name}-github-actions-app-runner"
-  policy = data.aws_iam_policy_document.github_actions_app_runner.json
+resource "aws_iam_policy" "github_actions_lambda" {
+  name   = "${var.name}-github-actions-lambda"
+  policy = data.aws_iam_policy_document.github_actions_lambda.json
 }
 
-data "aws_iam_policy_document" "github_actions_app_runner" {
+data "aws_iam_policy_document" "github_actions_lambda" {
   statement {
     sid    = "AllowPushImage"
     effect = "Allow"
