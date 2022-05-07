@@ -5,8 +5,6 @@ services:
         build:
             context: ./laravel
             dockerfile: Dockerfile
-        ports:
-            - '80:80'
         environment:
             DB_HOST: 'mysql'
             DB_DATABASE: 'app'
@@ -16,7 +14,8 @@ services:
             - laravel_lambda
         depends_on:
             - mysql
-        entrypoint: ["/var/www/wait-for-it.sh", "mysql:3306", "--", "start-container"]
+        entrypoint: ["/lambda-entrypoint.sh"]
+        command: ["public/index.php"]
     mysql:
         image: 'mysql/mysql-server:8.0'
         ports:
