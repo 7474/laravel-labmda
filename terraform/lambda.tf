@@ -1,32 +1,29 @@
-resource "aws_apprunner_service" "this" {
-  service_name = var.name
+resource "aws_lambda_function" "web" {
+  function_name = "${var.name}-web"
 
-  source_configuration {
-    # It's annoying to pay $1/month.
-    auto_deployments_enabled = false
-    image_repository {
-      image_configuration {
-        port = "80"
-        runtime_environment_variables = {
-          APP_KEY     = var.laravel_app_key
-          DB_HOST     = module.aurora.cluster_endpoint
-          DB_DATABASE = module.aurora.cluster_database_name
-          DB_USERNAME = module.aurora.cluster_master_username
-          DB_PASSWORD = module.aurora.cluster_master_password
-          LOG_CHANNEL = "stderr"
-        }
-      }
-      image_identifier      = "854403262515.dkr.ecr.ap-northeast-1.amazonaws.com/laravel-lambda:master"
-      image_repository_type = "ECR"
-    }
-    authentication_configuration {
-      access_role_arn = aws_iam_role.lambda_pull_ecr.arn
+  role = aws_iam_role.lambda.arn
+
+  package_type = "Image"
+  image_uri    = "854403262515.dkr.ecr.ap-northeast-1.amazonaws.com/laravel-lambda:master"
+  image_config {
+    entry_point = ["/lambda-entrypoint.sh"]
+    command     = ["public/index.php"]
+  }
+
+  environment {
+    variables = {
+      APP_KEY = var.laravel_app_key
+      # DB_HOST     = module.aurora.cluster_endpoint
+      # DB_DATABASE = module.aurora.cluster_database_name
+      # DB_USERNAME = module.aurora.cluster_master_username
+      # DB_PASSWORD = module.aurora.cluster_master_password
+      LOG_CHANNEL = "stderr"
     }
   }
 }
 
-resource "aws_iam_role" "lambda_pull_ecr" {
-  name = "${var.name}-lambda-pull"
+resource "aws_iam_role" "lambda" {
+  name = "${var.name}-lambda"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -35,7 +32,7 @@ resource "aws_iam_role" "lambda_pull_ecr" {
         Action = "sts:AssumeRole"
         Effect = "Allow"
         Principal = {
-          Service = "build.apprunner.amazonaws.com"
+          Service = "lambda.amazonaws.com"
         }
       },
     ]
@@ -43,8 +40,13 @@ resource "aws_iam_role" "lambda_pull_ecr" {
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_pull_ecr" {
-  role       = aws_iam_role.lambda_pull_ecr.name
+  role       = aws_iam_role.lambda.name
   policy_arn = aws_iam_policy.lambda_pull_ecr.arn
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_basic_execution" {
+  role       = aws_iam_role.lambda.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
 resource "aws_iam_policy" "lambda_pull_ecr" {

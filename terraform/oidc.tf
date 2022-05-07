@@ -54,38 +54,3 @@ data "aws_iam_policy_document" "github_actions_ecr_push" {
     resources = ["*"]
   }
 }
-
-resource "aws_iam_role_policy_attachment" "github_actions_lambda" {
-  role       = aws_iam_role.github_actions.name
-  policy_arn = aws_iam_policy.github_actions_lambda.arn
-}
-
-resource "aws_iam_policy" "github_actions_lambda" {
-  name   = "${var.name}-github-actions-lambda"
-  policy = data.aws_iam_policy_document.github_actions_lambda.json
-}
-
-data "aws_iam_policy_document" "github_actions_lambda" {
-  statement {
-    sid    = "AllowPushImage"
-    effect = "Allow"
-    actions = [
-      "iam:PassRole"
-    ]
-    resources = ["*"]
-    condition {
-      test     = "StringLike"
-      variable = "iam:PassedToService"
-      values   = ["apprunner.amazonaws.com"]
-    }
-  }
-
-  statement {
-    sid    = "AppRunnerAdminAccess"
-    effect = "Allow"
-    actions = [
-      "apprunner:*"
-    ]
-    resources = [aws_apprunner_service.this.arn]
-  }
-}
