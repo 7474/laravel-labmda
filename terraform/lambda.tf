@@ -22,6 +22,11 @@ resource "aws_lambda_function" "web" {
   }
 }
 
+resource "aws_lambda_function_url" "web" {
+  function_name      = aws_lambda_function.web.function_name
+  authorization_type = "NONE"
+}
+
 resource "aws_iam_role" "lambda" {
   name = "${var.name}-lambda"
 
