@@ -10,11 +10,16 @@ services:
             DB_DATABASE: 'app'
             DB_USERNAME: 'root'
             DB_PASSWORD: ''
+        ports:
+            # curl -XPOST "http://localhost:8080/2015-03-31/functions/function/invocations" -d '{}'
+            # http://localhost:8080/2015-03-31/functions/function/invocations
+            - '8080:8080'
         networks:
             - laravel_lambda
         depends_on:
             - mysql
         entrypoint: ["/lambda-entrypoint.sh"]
+        # command: ["artisan"]
         command: ["public/index.php"]
     mysql:
         image: 'mysql/mysql-server:8.0'
