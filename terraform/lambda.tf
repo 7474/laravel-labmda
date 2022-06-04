@@ -12,12 +12,9 @@ resource "aws_lambda_function" "web" {
 
   environment {
     variables = {
-      APP_KEY = var.laravel_app_key
-      # DB_HOST     = module.aurora.cluster_endpoint
-      # DB_DATABASE = module.aurora.cluster_database_name
-      # DB_USERNAME = module.aurora.cluster_master_username
-      # DB_PASSWORD = module.aurora.cluster_master_password
-      LOG_CHANNEL = "stderr"
+      APP_KEY       = var.laravel_app_key
+      LOG_CHANNEL   = "stderr"
+      DB_CONNECTION = "sqlite"
     }
   }
 }
