@@ -2,6 +2,8 @@ resource "aws_lambda_function" "web" {
   function_name = "${var.name}-web"
 
   role = aws_iam_role.lambda.arn
+  
+  timeout = 30
 
   package_type = "Image"
   image_uri    = "854403262515.dkr.ecr.ap-northeast-1.amazonaws.com/laravel-lambda:master"
